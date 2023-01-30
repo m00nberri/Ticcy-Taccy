@@ -166,9 +166,15 @@ button:hover {
   background-color: white;
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 #startRestart {
   margin-top: 25px;
   margin-bottom: -25px;
+}
+
+.gameSquare {
+  border: red 1px solid;
 }
