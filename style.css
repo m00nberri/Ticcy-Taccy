@@ -178,3 +178,21 @@ button:hover {
 .gameSquare {
   border: red 1px solid;
 }
+
+#popUpContainer {
+  z-index: 5;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.212);
+}
+
+#popUp {
+  padding: 10px;
+  background-color: white;
+  border: 1px black solid;
+  border-radius: 5px;
+  align-self: center;
+  justify-self: center;
+}
