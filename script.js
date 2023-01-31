@@ -13,6 +13,7 @@ const gameBoard = (() => {
       let newSquare = document.createElement("div");
       newSquare.classList.add("gameSquare");
       newSquare.id = i;
+      newSquare.textContent = i;
       board.appendChild(newSquare);
     }
   }
@@ -25,5 +26,38 @@ const gameBoard = (() => {
     newGame: newGame,
   };
 })();
+
+const gameControl = (() => {})();
+
+const Player = (name, side) => {
+  let playerType = 0;
+  let pointsList = [];
+  let winningCombos = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
+  ];
+  function isHuman() {
+    playerType = 1;
+  }
+  function isComputer() {
+    playerType = 0;
+  }
+  function checkWin() {
+    for (i = 0; i < winningCombos.length; i++) {
+      if (
+        pointsList.filter((point) => winningCombos[i].includes(point))
+          .length === 3
+      ) {
+        //win!
+      }
+    }
+  }
+};
 
 gameBoard.newGame();
