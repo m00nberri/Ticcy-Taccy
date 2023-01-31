@@ -177,6 +177,12 @@ button:hover {
 
 .gameSquare {
   border: red 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 80px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #popUpContainer {
