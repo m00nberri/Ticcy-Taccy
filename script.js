@@ -1,4 +1,6 @@
 const gameBoard = (() => {
+  let _startRestart = document.getElementById("startRestart");
+
   function _clearBoard() {
     let board = document.getElementById("gameBoard");
     let boardChild = board.firstElementChild;
@@ -18,12 +20,18 @@ const gameBoard = (() => {
     }
   }
 
+  function initializeButton() {
+    _startRestart.addEventListener("click", (e) => {
+      document.getElementById("popUpContainer").style.display = "grid";
+    });
+  }
   function newGame() {
     _clearBoard();
     _populateBoard();
   }
   return {
     newGame: newGame,
+    initializeButton: initializeButton,
   };
 })();
 
@@ -61,3 +69,4 @@ const Player = (name, side) => {
 };
 
 gameBoard.newGame();
+gameBoard.initializeButton();
