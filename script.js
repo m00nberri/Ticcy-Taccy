@@ -21,7 +21,7 @@ const gameBoard = (() => {
   }
 
   function initializeButton() {
-    _startRestart.addEventListener("click", (e) => {
+    _startRestart.addEventListener("click", () => {
       document.getElementById("popUpContainer").style.display = "grid";
     });
   }
