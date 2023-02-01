@@ -11,7 +11,34 @@
   <body>
     <div id="container">
       <div id="popUpContainer">
-        <div id="popUp"></div>
+        <form action="" id="popUp" name="popUp">
+          <p>Player 1</p>
+          <div>
+            <p>
+              <label for="p1Name">Name: </label>
+              <input type="text" name="p1Name" id="p1Name" required />
+            </p>
+            <p>
+              <label for="p1Type">Computer?</label>
+              <input type="checkbox" name="p1Type" id="p1Type" required />
+            </p>
+          </div>
+          <p>Player 2</p>
+          <div>
+            <p>
+              <label for="p2Name">Name: </label>
+              <input type="text" name="p2Name" id="p2Name" required />
+            </p>
+            <p>
+              <label for="p2Type">Computer?</label>
+              <input type="checkbox" name="p2Type" id="p2Type" required />
+            </p>
+          </div>
+          <div id="formButtons">
+            <button type="button" id="playButton">Play</button>
+            <button type="button" id="closeButton">Close</button>
+          </div>
+        </form>
       </div>
       <div id="gameBox">
         <div id="gameBoard"></div>
