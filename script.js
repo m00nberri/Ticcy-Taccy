@@ -1,5 +1,7 @@
 const gameBoard = (() => {
   let _startRestart = document.getElementById("startRestart");
+  let _playButton = document.getElementById("playButton");
+  let _closeButton = document.getElementById("closeButton");
 
   function _clearBoard() {
     let board = document.getElementById("gameBoard");
@@ -20,9 +22,21 @@ const gameBoard = (() => {
     }
   }
 
-  function initializeButton() {
+  function initializeButtons() {
     _startRestart.addEventListener("click", () => {
       document.getElementById("popUpContainer").style.display = "grid";
+    });
+    _playButton.addEventListener("click", () => {
+      gameControl.initializePlayers(
+        document.getElementById("p1Name").value,
+        document.getElementById("p2Name").value
+      );
+      console.log(player1);
+      console.log(player2);
+    });
+    _closeButton.addEventListener("click", () => {
+      document.getElementById("popUpContainer").style.display = "none";
+      document.getElementById("popUp").reset();
     });
   }
   function newGame() {
@@ -31,14 +45,33 @@ const gameBoard = (() => {
   }
   return {
     newGame: newGame,
-    initializeButton: initializeButton,
+    initializeButtons: initializeButtons,
   };
 })();
 
-const gameControl = (() => {})();
+const gameControl = (() => {
+  function initializePlayers(p1n, p2n) {
+    player1 = Player(p1n);
+    player2 = Player(p2n);
+    document.getElementById("p1Type").checked
+      ? player1.isComputer()
+      : player1.isHuman();
+    document.getElementById("p2Type").checked
+      ? player2.isComputer()
+      : player2.isHuman();
+    return {
+      player1,
+      player2,
+    };
+  }
+
+  return {
+    initializePlayers: initializePlayers,
+  };
+})();
 
 const Player = (name, side) => {
-  let playerType = 0;
+  let type = 0;
   let pointsList = [];
   let winningCombos = [
     [1, 2, 3],
@@ -51,10 +84,11 @@ const Player = (name, side) => {
     [3, 5, 7],
   ];
   function isHuman() {
-    playerType = 1;
+    console.log("ween");
+    obj.type = 1;
   }
   function isComputer() {
-    playerType = 0;
+    obj.type = 0;
   }
   function checkWin() {
     for (i = 0; i < winningCombos.length; i++) {
@@ -66,7 +100,9 @@ const Player = (name, side) => {
       }
     }
   }
+  const obj = { name, side, type, pointsList, isHuman, isComputer };
+  return obj;
 };
 
 gameBoard.newGame();
-gameBoard.initializeButton();
+gameBoard.initializeButtons();
