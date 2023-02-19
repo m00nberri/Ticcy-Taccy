@@ -161,7 +161,7 @@ const Player = (name, side) => {
   }
   function play(e, turn) {
     e.target.textContent = turn;
-    pointsList.push(e.target.id);
+    pointsList.push(Number(e.target.id));
     checkWin();
   }
   function computerPlay(turn) {
@@ -169,18 +169,17 @@ const Player = (name, side) => {
     let computerChoice = Math.floor(Math.random() * (validSquares.length + 1));
     let computerSquare = validSquares[computerChoice];
     computerSquare.textContent = turn;
-    pointsList.push(computerSquare.id);
+    pointsList.push(Number(computerSquare.id));
     checkWin();
     return {
       computerSquare,
     };
   }
   function checkWin() {
+    console.log(`Checking win for ${name}... points list is ${pointsList}`);
     for (i = 0; i < winningCombos.length; i++) {
-      if (
-        pointsList.filter((point) => winningCombos[i].includes(point))
-          .length === 3
-      ) {
+      let temp = pointsList.filter((point) => winningCombos[i].includes(point));
+      if (temp.length === 3) {
         alert("woopiedoo");
       }
     }
