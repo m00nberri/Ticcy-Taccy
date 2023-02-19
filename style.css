@@ -176,13 +176,18 @@ button:hover {
 }
 
 .gameSquare {
-  border: red 1px solid;
+  border: black 1px solid;
+  background-color: lightgray;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
   font-size: 80px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.validPlay {
+  background-color: white;
 }
 
 #popUpContainer {
