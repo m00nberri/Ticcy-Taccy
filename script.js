@@ -31,8 +31,7 @@ const gameBoard = (() => {
         document.getElementById("p1Name").value,
         document.getElementById("p2Name").value
       );
-      console.log(player1);
-      console.log(player2);
+      gameControl.startGame();
     });
     _closeButton.addEventListener("click", () => {
       document.getElementById("popUpContainer").style.display = "none";
@@ -50,6 +49,23 @@ const gameBoard = (() => {
 })();
 
 const gameControl = (() => {
+  let turn = "X";
+
+  function _coinFlip() {
+    if (Math.random() >= 0.5) {
+      return "heads";
+    } else {
+      return "tails";
+    }
+  }
+
+  function changeTurn() {
+    if (turn === "X") {
+      turn = "O";
+    } else {
+      turn = "X";
+    }
+  }
   function initializePlayers(p1n, p2n) {
     player1 = Player(p1n);
     player2 = Player(p2n);
@@ -59,14 +75,36 @@ const gameControl = (() => {
     document.getElementById("p2Type").checked
       ? player2.isComputer()
       : player2.isHuman();
+    if (_coinFlip() === "heads") {
+      player1.side = "X";
+      player2.side = "O";
+    } else {
+      player2.side = "X";
+      player1.side = "O";
+    }
     return {
       player1,
       player2,
+      turn,
     };
   }
 
+  function startGame() {
+    document.getElementById("popUpContainer").style.display = "none";
+    let gameSquares = document.getElementsByClassName("gameSquare");
+    for (let i = 0; i < gameSquares.length; i++) {
+      gameSquares[i].addEventListener("click", (e) => {
+        e.target.textContent = turn;
+        changeTurn();
+      });
+    }
+  }
+
   return {
-    initializePlayers: initializePlayers,
+    initializePlayers,
+    startGame,
+    changeTurn,
+    turn,
   };
 })();
 
@@ -84,7 +122,6 @@ const Player = (name, side) => {
     [3, 5, 7],
   ];
   function isHuman() {
-    console.log("ween");
     obj.type = 1;
   }
   function isComputer() {
