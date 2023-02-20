@@ -60,14 +60,27 @@ const gameControl = (() => {
     }
   }
 
-  function changeTurn() {
-    if (turn === "X") {
-      turn = "O";
+  function _checkChange() {
+    if (player1.checkWin()) {
+      alert("win");
+    } else if (player2.checkWin()) {
+      alert("win");
     } else {
-      turn = "X";
+      if (turn === "X") {
+        turn = "O";
+        _playRound();
+      } else {
+        turn = "X";
+        _playRound();
+      }
     }
-    _playRound();
   }
+
+  function _remove(targetSquare) {
+    targetSquare.removeEventListener("click", _gameClick);
+    targetSquare.classList.remove("validPlay");
+  }
+
   function initializePlayers(p1n, p2n) {
     player1 = Player(p1n);
     player2 = Player(p2n);
@@ -106,18 +119,16 @@ const gameControl = (() => {
         console.log("player 1 play please");
       } else if (player1.type === 0) {
         let chosenSquare = player1.computerPlay(turn);
-        chosenSquare.removeEventListener("click", _gameClick);
-        chosenSquare.classList.remove("validPlay");
-        changeTurn();
+        _remove(chosenSquare);
+        _checkChange();
       }
     } else {
       if (player2.type === 1) {
         console.log("player 2 play please");
       } else if (player2.type === 0) {
         let chosenSquare = player2.computerPlay(turn);
-        chosenSquare.removeEventListener("click", _gameClick);
-        chosenSquare.classList.remove("validPlay");
-        changeTurn();
+        _remove(chosenSquare);
+        _checkChange();
       }
     }
   }
@@ -127,15 +138,13 @@ const gameControl = (() => {
     } else {
       player2.play(e, turn);
     }
-    e.target.removeEventListener("click", _gameClick);
-    e.target.classList.remove("validPlay");
-    changeTurn();
+    _remove(e.target);
+    _checkChange();
   }
 
   return {
     initializePlayers,
     startGame,
-    changeTurn,
     turn,
   };
 })();
@@ -162,7 +171,6 @@ const Player = (name, side) => {
   function play(e, turn) {
     e.target.textContent = turn;
     pointsList.push(Number(e.target.id));
-    checkWin();
   }
   function computerPlay(turn) {
     let validSquares = document.getElementsByClassName("validPlay");
@@ -170,17 +178,17 @@ const Player = (name, side) => {
     let computerSquare = validSquares[computerChoice];
     computerSquare.textContent = turn;
     pointsList.push(Number(computerSquare.id));
-    checkWin();
     return {
       computerSquare,
     };
   }
   function checkWin() {
     console.log(`Checking win for ${name}... points list is ${pointsList}`);
+    console.log(pointsList);
     for (i = 0; i < winningCombos.length; i++) {
       let temp = pointsList.filter((point) => winningCombos[i].includes(point));
       if (temp.length === 3) {
-        alert("woopiedoo");
+        return true;
       }
     }
   }
@@ -188,11 +196,11 @@ const Player = (name, side) => {
     name,
     side,
     type,
-    pointsList,
     isHuman,
     isComputer,
     play,
     computerPlay,
+    checkWin,
   };
   return obj;
 };
