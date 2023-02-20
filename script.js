@@ -65,8 +65,19 @@ const gameControl = (() => {
   function _checkChange() {
     if (player1.checkWin()) {
       gameBoard.gameDisplay.textContent = `${player1.name} wins!`;
+      let remaining = document.querySelectorAll(".validPlay");
+      console.log(remaining);
+      for (i = 0; i < remaining.length; i++) {
+        remove(remaining[i]);
+      }
     } else if (player2.checkWin()) {
       gameBoard.gameDisplay.textContent = `${player2.name} wins!`;
+      let remaining = document.querySelectorAll(".validPlay");
+      for (i = 0; i < remaining.length; i++) {
+        remove(remaining[i]);
+      }
+    } else if (document.getElementsByClassName("validPlay").length === 0) {
+      gameBoard.gameDisplay.textContent = `No Winner :(`;
     } else {
       if (turn === "X") {
         turn = "O";
