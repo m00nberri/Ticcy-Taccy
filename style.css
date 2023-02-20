@@ -177,6 +177,10 @@ button:hover {
   justify-items: stretch;
 }
 
+svg {
+  fill: white;
+}
+
 #gameInfo {
   display: flex;
   align-items: center;
