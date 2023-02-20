@@ -78,7 +78,7 @@ const gameControl = (() => {
     }
   }
 
-  function _remove(targetSquare) {
+  function remove(targetSquare) {
     targetSquare.removeEventListener("click", _gameClick);
     targetSquare.classList.remove("validPlay");
   }
@@ -107,7 +107,10 @@ const gameControl = (() => {
   }
 
   function startGame() {
+    gameBoard.newGame();
     document.getElementById("popUpContainer").style.display = "none";
+    document.getElementById("popUp").reset();
+    document.getElementById("startRestart").textContent = "New Game";
     let gameSquares = document.getElementsByClassName("gameSquare");
     for (let i = 0; i < gameSquares.length; i++) {
       gameSquares[i].addEventListener("click", _gameClick);
@@ -120,16 +123,14 @@ const gameControl = (() => {
       if (player1.type === 1) {
         gameBoard.gameDisplay.textContent = `${player1.name}'s turn! ( ${player1.side} )`;
       } else if (player1.type === 0) {
-        let chosenSquare = player1.computerPlay(turn);
-        _remove(chosenSquare);
+        player1.computerPlay(turn);
         _checkChange();
       }
     } else {
       if (player2.type === 1) {
         gameBoard.gameDisplay.textContent = `${player2.name}'s turn! ( ${player2.side} )`;
       } else if (player2.type === 0) {
-        let chosenSquare = player2.computerPlay(turn);
-        _remove(chosenSquare);
+        player2.computerPlay(turn);
         _checkChange();
       }
     }
@@ -140,7 +141,7 @@ const gameControl = (() => {
     } else {
       player2.play(e, turn);
     }
-    _remove(e.target);
+    remove(e.target);
     _checkChange();
   }
 
@@ -148,6 +149,7 @@ const gameControl = (() => {
     initializePlayers,
     startGame,
     turn,
+    remove,
   };
 })();
 
@@ -174,15 +176,22 @@ const Player = (name, side) => {
     e.target.textContent = turn;
     pointsList.push(Number(e.target.id));
   }
+  function randomChoice() {
+    return (Math.floor(Math.random() * 9) + 1).toString();
+  }
   function computerPlay(turn) {
-    let validSquares = document.getElementsByClassName("validPlay");
-    let computerChoice = Math.floor(Math.random() * (validSquares.length + 1));
-    let computerSquare = validSquares[computerChoice];
-    computerSquare.textContent = turn;
-    pointsList.push(Number(computerSquare.id));
-    return {
-      computerSquare,
-    };
+    let computerSquare = document.getElementById(randomChoice());
+    console.log(computerSquare);
+    if (computerSquare.classList.contains("validPlay")) {
+      computerSquare.textContent = turn;
+      pointsList.push(Number(computerSquare.id));
+      console.log(
+        `computer's points list is ${pointsList} after adding ${computerSquare.id}`
+      );
+      gameControl.remove(computerSquare);
+    } else {
+      computerPlay(turn);
+    }
   }
   function checkWin() {
     console.log(`Checking win for ${name}... points list is ${pointsList}`);
@@ -190,6 +199,10 @@ const Player = (name, side) => {
     for (i = 0; i < winningCombos.length; i++) {
       let temp = pointsList.filter((point) => winningCombos[i].includes(point));
       if (temp.length === 3) {
+        for (w = 0; w < temp.length; w++) {
+          document.getElementById(temp[w].toString()).style.backgroundColor =
+            "gold";
+        }
         return true;
       }
     }
@@ -207,5 +220,4 @@ const Player = (name, side) => {
   return obj;
 };
 
-gameBoard.newGame();
 gameBoard.initializeButtons();
