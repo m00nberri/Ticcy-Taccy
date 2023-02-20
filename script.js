@@ -2,6 +2,7 @@ const gameBoard = (() => {
   let _startRestart = document.getElementById("startRestart");
   let _playButton = document.getElementById("playButton");
   let _closeButton = document.getElementById("closeButton");
+  let gameDisplay = document.getElementById("gameInfo");
 
   function _clearBoard() {
     let board = document.getElementById("gameBoard");
@@ -44,8 +45,9 @@ const gameBoard = (() => {
     _populateBoard();
   }
   return {
-    newGame: newGame,
-    initializeButtons: initializeButtons,
+    newGame,
+    initializeButtons,
+    gameDisplay,
   };
 })();
 
@@ -62,9 +64,9 @@ const gameControl = (() => {
 
   function _checkChange() {
     if (player1.checkWin()) {
-      alert("win");
+      gameBoard.gameDisplay.textContent = `${player1.name} wins!`;
     } else if (player2.checkWin()) {
-      alert("win");
+      gameBoard.gameDisplay.textContent = `${player2.name} wins!`;
     } else {
       if (turn === "X") {
         turn = "O";
@@ -116,7 +118,7 @@ const gameControl = (() => {
   function _playRound() {
     if (player1.side === turn) {
       if (player1.type === 1) {
-        console.log("player 1 play please");
+        gameBoard.gameDisplay.textContent = `${player1.name}'s turn! ( ${player1.side} )`;
       } else if (player1.type === 0) {
         let chosenSquare = player1.computerPlay(turn);
         _remove(chosenSquare);
@@ -124,7 +126,7 @@ const gameControl = (() => {
       }
     } else {
       if (player2.type === 1) {
-        console.log("player 2 play please");
+        gameBoard.gameDisplay.textContent = `${player2.name}'s turn! ( ${player2.side} )`;
       } else if (player2.type === 0) {
         let chosenSquare = player2.computerPlay(turn);
         _remove(chosenSquare);
