@@ -19,7 +19,6 @@ const gameBoard = (() => {
       newSquare.classList.add("gameSquare");
       newSquare.classList.add("validPlay");
       newSquare.id = i;
-      newSquare.textContent = i;
       board.appendChild(newSquare);
     }
   }
