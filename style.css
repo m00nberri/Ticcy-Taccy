@@ -172,7 +172,9 @@ button:hover {
 
 #toolbar {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 200px 1fr 50px;
+  align-items: stretch;
+  justify-items: stretch;
 }
 
 #gameInfo {
